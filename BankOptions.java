@@ -1,14 +1,23 @@
+/*
 
+An object of this class is created when login credentials are created.
+It is how the user interacts with the account.
+Creates a new object of Account.
+Will use Account's get and set functions for interacting with account file.
+
+*/
 package BankAccount;
 
 
-import java.awt.*;
-import java.awt.event.*;
+import java.awt.*; //UI stuff
+import java.awt.event.*; //event-handling stuff
 
 
 
-public class BankOptions extends Frame implements WindowListener{
-	
+public class BankOptions extends Frame implements WindowListener{ //Frame for UI, Window listener                                               for closing whendow. 
+    
+    
+	//new button instances
 	Button depositButton = new Button("Deposit");
 	Button withdrawButton = new Button("Withdraw");
 	Button checkBalanceButton = new Button("Check Balance");
@@ -16,12 +25,12 @@ public class BankOptions extends Frame implements WindowListener{
 	Button changePasswordButton = new Button("Change Password");
 	Button logoutButton = new Button("Log Out");
 	
-	public BankOptions(int accountNumber){
+	public BankOptions(int accountNumber){ //constructor takes account number from login
 		
-		Account account = new Account(accountNumber);
+		Account account = new Account(accountNumber); //passes account number to Account
 		
-
-		setLayout(new GridLayout(3,2));
+        //Sets UI stuff, six buttons in a 3x2 grid, attaches Action listeners
+		setLayout(new GridLayout(3,2)); 
 		
 		add(depositButton);
 		depositButton.addActionListener(new DepositButtonListener());
@@ -38,7 +47,7 @@ public class BankOptions extends Frame implements WindowListener{
 		add(changePasswordButton);
 		changePasswordButton.addActionListener(new ChangePasswordButtonListener());
 		
-		add(logoutButton);
+		add(logoutButton); //logout creates new Login object, 
 		logoutButton.addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent evt){
@@ -51,10 +60,12 @@ public class BankOptions extends Frame implements WindowListener{
 		
 		setVisible(true);
 		
-		addWindowListener(this);
+		addWindowListener(this); //for closing window on pressing x
 		
 	}
-	
+    
+    
+	//Button listeners, code will run when corresponding button is pressed
 	private class DepositButtonListener implements ActionListener{
 		
 		@Override
@@ -92,10 +103,11 @@ public class BankOptions extends Frame implements WindowListener{
 	
 	
 	@Override
-	public void windowClosing(WindowEvent e){
+	public void windowClosing(WindowEvent e){ //closes window when x in top left is clicked
 		System.exit(0);
 	}
 	
+    //not used
 	@Override
 	public void windowClosed(WindowEvent e) {}
 	@Override 
@@ -109,4 +121,4 @@ public class BankOptions extends Frame implements WindowListener{
 	@Override 
 	public void windowDeactivated(WindowEvent e) {}
 
-}
+} //end of BankOptions
