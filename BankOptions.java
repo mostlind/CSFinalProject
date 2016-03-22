@@ -1,6 +1,6 @@
 /*
 
-An object of this class is created when login credentials are created.
+An object of this class is created when login credentials are authenticated.
 It is how the user interacts with the account.
 Creates a new object of Account.
 Will use Account's get and set functions for interacting with account file.
