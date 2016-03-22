@@ -96,7 +96,7 @@ public class Login extends JFrame implements ActionListener, WindowListener{
 			
 			if (accountNumber == Integer.parseInt(acctNumField.getText()))
 			{
-				String password = loginStream.next()
+				String password = loginStream.next();
 				
 				if (password.equals(passwdField.getText())) {
 					
