@@ -27,7 +27,7 @@ public class Login extends JFrame implements ActionListener, WindowListener{
 	Button loginButton = new Button("Login"); //login button
 	
 	
-	public Login() //constructor
+	public Login() //When login object is created, creates frame and places all necessary UI elements
 	{
 		
 		setLayout( new FlowLayout(FlowLayout.RIGHT)); //uses flow layout 
@@ -67,12 +67,14 @@ public class Login extends JFrame implements ActionListener, WindowListener{
 	
 	public void actionPerformed(ActionEvent evt)
 	{
+		String userPath = System.getProperty("User.dir"); //string representing current project file path
+		
 		Scanner loginStream = null; //initializes loginStream, if not initialized, and error is
                 //thrown because the try block might fail. In that case loginStream would never
                 //initialized
 		
-		File accountFile = new File("/Users/mostlind/Documents/loginInfo.txt"); 
-                //Change this for your filesystem
+		File accountFile = new File(userPath, "loginInfo.txt"); 
+                //FIXED: Put loginInfo.txt into project file and this will work
                 //Might use different file i/o object like FileInputStream, but this works
                 //path to .txt file with accountNums and passwords
                 //in format:
@@ -106,13 +108,13 @@ public class Login extends JFrame implements ActionListener, WindowListener{
 
 					this.dispose();
 						
-					break;
+					break; //don't think this is necessary, dispose() probably ends the process
 					
 				}
 				
 			} else {	
 				loginStream.nextLine();
-			}
+			} // end of while loop
 		}
 		
 		loginStream.close();
@@ -123,6 +125,7 @@ public class Login extends JFrame implements ActionListener, WindowListener{
 	public static void main(String [] args)
 	{
 		new Login();
+		System.out.println(System.getProperty("user.dir"));
 	}
 	
     //closes window on x
