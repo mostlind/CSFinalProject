@@ -8,8 +8,7 @@ Has main(), which creates instance of login.
 */
 package BankAccount;
 
-
-import java.awt.*; //UIstuff
+import java.awt.*; //Layouts
 import java.awt.event.*; //event-handling
 import javax.swing.*; //UIstuff with a J in front of it
 import java.io.*; //for File()
@@ -20,10 +19,10 @@ public class Login extends JFrame implements ActionListener, WindowListener{
         //window listener for window close on 'x'
 	
     //new UI objects
-	Label acctNumLabel = new Label("Account Number: "); //label in front of acctNumField
-	TextField acctNumField = new TextField(30); //place to enter account number
-	Label passwdLabel = new Label("Password: "); //label designating password field
-	TextField passwdField = new TextField(30); //place to put password
+	JLabel acctNumLabel = new JLabel("Account Number: "); //label in front of acctNumField
+	JTextField acctNumField = new JTextField(30); //place to enter account number
+	JLabel passwdLabel = new JLabel("Password: "); //label designating password field
+	JTextField passwdField = new JTextField(30); //place to put password
 	JButton loginButton = new JButton("Login"); //login button
 	
 	

@@ -9,12 +9,12 @@ Will use Account's get and set functions for interacting with account file.
 package BankAccount;
 
 
-import java.awt.*; //UI stuff
+import java.awt.*; //Layouts
 import java.awt.event.*; //event-handling stuff
-import javax.swing.*;
+import javax.swing.*; //UI stuff
 
 
-public class BankOptions extends Frame implements WindowListener{ //Frame for UI, Window listener                                               for closing whendow. 
+public class BankOptions extends JFrame implements WindowListener{ //Frame for UI, Window listener                                               for closing whendow. 
     
     
 	//new button instances
