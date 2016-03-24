@@ -73,7 +73,7 @@ public class Login extends JFrame implements ActionListener, WindowListener{
                 //thrown because the try block might fail. In that case loginStream would never
                 //initialized
 		
-		File accountFile = new File(userPath, "loginInfo.txt"); 
+		File credentialsFile = new File(userPath, "loginInfo.txt"); 
                 //FIXED: Put loginInfo.txt into project file and this will work
                 //Might use different file i/o object like FileInputStream, but this works
                 //path to .txt file with accountNums and passwords
@@ -83,7 +83,7 @@ public class Login extends JFrame implements ActionListener, WindowListener{
 
         //creates scanner for accountFile
 		try{
-			loginStream = new Scanner(accountFile);
+			loginStream = new Scanner(credentialsFile);
 		}
 		catch(FileNotFoundException e){
 			System.out.println("File doesn't exist.");
