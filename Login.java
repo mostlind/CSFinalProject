@@ -24,7 +24,7 @@ public class Login extends JFrame implements ActionListener, WindowListener{
 	TextField acctNumField = new TextField(30); //place to enter account number
 	Label passwdLabel = new Label("Password: "); //label designating password field
 	TextField passwdField = new TextField(30); //place to put password
-	Button loginButton = new Button("Login"); //login button
+	JButton loginButton = new JButton("Login"); //login button
 	
 	
 	public Login() //When login object is created, creates frame and places all necessary UI elements

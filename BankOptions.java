@@ -11,19 +11,19 @@ package BankAccount;
 
 import java.awt.*; //UI stuff
 import java.awt.event.*; //event-handling stuff
-
+import javax.swing.*;
 
 
 public class BankOptions extends Frame implements WindowListener{ //Frame for UI, Window listener                                               for closing whendow. 
     
     
 	//new button instances
-	Button depositButton = new Button("Deposit");
-	Button withdrawButton = new Button("Withdraw");
-	Button checkBalanceButton = new Button("Check Balance");
-	Button transferButton = new Button("Transfer Money");
-	Button changePasswordButton = new Button("Change Password");
-	Button logoutButton = new Button("Log Out");
+	JButton depositButton = new JButton("Deposit");
+	JButton withdrawButton = new JButton("Withdraw");
+	JButton checkBalanceButton = new JButton("Check Balance");
+	JButton transferButton = new JButton("Transfer Money");
+	JButton changePasswordButton = new JButton("Change Password");
+	JButton logoutButton = new JButton("Log Out");
 	
 	public BankOptions(int accountNumber){ //constructor takes account number from login
 		
