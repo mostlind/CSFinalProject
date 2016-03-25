@@ -20,9 +20,9 @@ public class Login extends JFrame implements ActionListener, WindowListener{
 	
     //new UI objects
 	JLabel acctNumLabel = new JLabel("Account Number: "); //label in front of acctNumField
-	JTextField acctNumField = new JTextField(30); //place to enter account number
+	JTextField acctNumField = new JTextField(20); //place to enter account number
 	JLabel passwdLabel = new JLabel("Password: "); //label designating password field
-	JTextField passwdField = new JTextField(30); //place to put password
+	JTextField passwdField = new JTextField(20); //place to put password
 	JButton loginButton = new JButton("Login"); //login button
 	
 	
