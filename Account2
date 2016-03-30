@@ -1,0 +1,34 @@
+	//get and set for all variables
+	
+	private void setAN(int acctNum){
+		this.acctNum = acctNum;
+		accountFile = newPrintWriter(new FileOutputStream(anAccountNumber + ".txt"))
+	}
+	
+	public int getAN(){
+		return acctNum;
+	}
+	
+	private void setFN(String firstName){
+		this.firstName = firstName;
+	}
+	
+	public String getFN(){
+		return firstName;
+	}
+	
+	private void setLN(String lastName){
+		this.lastName = lastName;
+	}
+	
+	public String getLN(){
+		return lastName;
+	}
+	
+	private void setBal(double balance){
+		this.balance = balance;
+	}
+	
+	public double getBal(){
+		return balance;
+	}
