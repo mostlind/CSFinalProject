@@ -29,6 +29,8 @@ public class Login extends JFrame implements ActionListener, WindowListener{
 	public Login() //When login object is created, creates frame and places all necessary UI elements
 	{
 		
+		super();
+		
 		setLayout( new FlowLayout(FlowLayout.RIGHT)); //uses flow layout 
 		
         
@@ -62,7 +64,7 @@ public class Login extends JFrame implements ActionListener, WindowListener{
 		addWindowListener(this); //for close on x
 		
 		
-	}
+	} //end of login()
 	
 	public void actionPerformed(ActionEvent evt)
 	{

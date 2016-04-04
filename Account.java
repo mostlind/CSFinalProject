@@ -12,14 +12,14 @@ import java.io.*;
 import java.util.Scanner;
 
 public class Account {
-	
 	private int acctNum;
 	private String lastName, firstName;
 	private double balance;
 	private boolean atmAccess; 
 	
-	
 	public Account(int anAccountNumber){ //argument passed by BankOptions
+		
+		super();
 		
 		String userPath = System.getProperty("User.dir"); //string representing path to project directory
 		

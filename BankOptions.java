@@ -11,11 +11,14 @@ package BankAccount;
 
 import java.awt.*; //Layouts
 import java.awt.event.*; //event-handling stuff
+import java.math.BigDecimal;
+
 import javax.swing.*; //UI stuff
 
 
 public class BankOptions extends JFrame implements WindowListener{ //Frame for UI, Window listener                                               for closing whendow. 
     
+	int accountNumber;
     
 	//new button instances
 	JButton depositButton = new JButton("Deposit");
@@ -25,9 +28,13 @@ public class BankOptions extends JFrame implements WindowListener{ //Frame for U
 	JButton changePasswordButton = new JButton("Change Password");
 	JButton logoutButton = new JButton("Log Out");
 	
-	public BankOptions(int accountNumber){ //constructor takes account number from login
+	public BankOptions(int anAccountNumber){ //constructor takes account number from login
 		
-		Account account = new Account(accountNumber); //passes account number to Account
+		super();
+		
+		accountNumber = anAccountNumber; 
+		
+		Account account = new Account(accountNumber); //passes account number to Account. This may not be needed.. create Account objects in buttons
 		
         //Sets UI stuff, six buttons in a 3x2 grid, attaches Action listeners
 		setLayout(new GridLayout(3,2)); 
@@ -69,8 +76,61 @@ public class BankOptions extends JFrame implements WindowListener{ //Frame for U
 	private class DepositButtonListener implements ActionListener{
 		
 		@Override
-		public void actionPerformed(ActionEvent evt){
-			//deposit money... IMPLEMENT LATER
+		public void actionPerformed(ActionEvent evt){//IMPLEMENTING
+			BankOptions.this.setVisible(false);
+			new DepositWindow();
+		}
+		
+		private class DepositWindow extends JFrame implements ActionListener{
+			
+			Account account = new Account(accountNumber);
+			
+			JTextField depositField = new JTextField(20);
+			JButton depositButton = new JButton("submit");
+			JLabel depositLabel = new JLabel("How much do you want to deposit?");
+			
+			private DepositWindow() {
+				
+				setLayout(new FlowLayout());
+				
+				depositField.addActionListener(this);
+				depositButton.addActionListener(this);
+				
+				add(depositLabel);
+				add(depositField);
+				add(depositButton);
+				
+				setVisible(true);
+				
+				setSize(350, 120);
+			}
+			
+			public void actionPerformed(ActionEvent evt) {
+				
+				Double amountDeposited = Double.parseDouble(depositField.getText());
+				
+				JButton okButton = new JButton("Okay");
+				okButton.addActionListener( new ActionListener() {
+					@Override
+					public void actionPerformed(ActionEvent evt){
+						BankOptions.this.setVisible(true);
+						dispose();
+					}});
+				
+				//double newBalance = account.getBalance() + amountDeposited;
+				//account.setBalance(newBalance);
+				
+				remove(depositField);
+				remove(depositButton);
+				remove(depositLabel);
+				
+				add(new JLabel("You deposited $" + amountDeposited + ". Your Balance is now " + 0));//newBalance));
+				add(okButton);
+				
+				revalidate();
+				repaint();
+				
+			}
 		}
 	}
 	
