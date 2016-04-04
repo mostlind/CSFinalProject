@@ -2,33 +2,31 @@
 	
 	public void setAN(int acctNum){
 		this.acctNum = acctNum;
-		accountFile = newPrintWriter(new FileOutputStream(anAccountNumber + ".txt"))
+		
+		try{
+		BufferedWriter accountFile = new BufferedWriter(new FileWriter("/CSFinalProject/" + getAN() + ".txt"));
+			accountFile.write(String.valueOf(getAN()));
+			accountFile.newLine();
+			accountFile.write(getLN());
+			accountFile.newLine();
+			accountFile.write(getFN());
+			accountFile.newLine();
+			accountFile.write(String.valueOf(getBal()));;
+			accountFile.newLine();
+			accountFile.write(String.valueOf(getAcc()));
+			accountFile.newLine();
+			
+			accountFile.close();
+		}
+		
+		catch (IOException e){
+			e.printStackTrace();
+		}
+		
 	}
 	
 	public int getAN(){
 		return acctNum;
-	}
 	
-	public void setFN(String firstName){
-		this.firstName = firstName;
-	}
-	
-	public String getFN(){
-		return firstName;
-	}
-	
-	public void setLN(String lastName){
-		this.lastName = lastName;
-	}
-	
-	public String getLN(){
-		return lastName;
-	}
-	
-	public void setBal(double balance){
-		this.balance = balance;
-	}
-	
-	public double getBal(){
-		return balance;
-	}
+
+
