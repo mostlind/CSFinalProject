@@ -1,20 +1,27 @@
+//Should be good after these changes, make the rest of them along these lines, then put them into Account.Java		
+	
 	//get and set for all variables
 	
-	public void setAN(int acctNum){
+	public void setAcctNum(int acctNum){ 	//function names should match variables
 		this.acctNum = acctNum;
 		
 		try{
-		BufferedWriter accountFile = new BufferedWriter(new FileWriter("/CSFinalProject/" + getAN() + ".txt"));
-			accountFile.write(String.valueOf(getAN()));
-			accountFile.newLine();
-			accountFile.write(getLN());
-			accountFile.newLine();
-			accountFile.write(getFN());
-			accountFile.newLine();
-			accountFile.write(String.valueOf(getBal()));;
-			accountFile.newLine();
-			accountFile.write(String.valueOf(getAcc()));
-			accountFile.newLine();
+			//accountFile is defined in Account, 
+			//can be used as argument for FileWriter, but not as name for BufferedWriter
+			
+			BufferedWriter accountWriter = new BufferedWriter(new FileWriter(accountFile)); 
+			
+			//can just pass variable as argument, rather than get()ing it
+			accountWriter.write(String.valueOf(acctNum));
+			accountWriter.newLine();
+			accountWriter.write(lastName);
+			accountWriter.newLine();
+			accountWriter.write(firstName);
+			accountWriter.newLine();
+			accountWriter.write("" + balance); //easy way to make something a string is just | "" + something |
+			accountWriter.newLine();
+			accountWriter.write("" + atmAccess);
+			//final newLine() unnecessary
 			
 			accountFile.close();
 		}
@@ -25,8 +32,7 @@
 		
 	}
 	
-	public int getAN(){
+	public int getAcctNum(){ //function names should match variables
 		return acctNum;
+	}
 	
-
-
