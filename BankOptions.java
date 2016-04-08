@@ -117,14 +117,14 @@ public class BankOptions extends JFrame implements WindowListener{ //Frame for U
 						dispose();
 					}});
 				
-				//double newBalance = account.getBalance() + amountDeposited;
-				//account.setBalance(newBalance);
+				double newBalance = account.getBalance() + amountDeposited;
+				account.setBalance(newBalance);
 				
 				remove(depositField);
 				remove(depositButton);
 				remove(depositLabel);
 				
-				add(new JLabel("You deposited $" + amountDeposited + ". Your Balance is now " + 0));//newBalance));
+				add(new JLabel("You deposited $" + amountDeposited + ". Your Balance is now " + newBalance));
 				add(okButton);
 				
 				revalidate();

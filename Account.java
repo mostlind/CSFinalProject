@@ -15,7 +15,8 @@ public class Account {
 	private int acctNum;
 	private String lastName, firstName;
 	private double balance;
-	private boolean atmAccess; 
+	private boolean atmAccess;
+    private File accountFile;
 	
 	public Account(int anAccountNumber){ //argument passed by BankOptions
 		
@@ -23,7 +24,7 @@ public class Account {
 		
 		String userPath = System.getProperty("User.dir"); //string representing path to project directory
 		
-		File accountFile = new File(userPath, anAccountNumber + ".txt"); //new file object for account file
+		accountFile = new File(userPath, anAccountNumber + ".txt"); //new file object for account file
 		
 		Scanner accountStream = null; // initializes accountStream
 		
@@ -49,5 +50,148 @@ public class Account {
 	} //end of Account()
 	
 	//get and set for all variables
+
+
+	public void setAcctNum(int acctNum){ 	//sets acctNum variable and rewrites file
+		this.acctNum = acctNum;
+
+		try{
+
+			BufferedWriter accountWriter = new BufferedWriter(new FileWriter(accountFile));
+
+			accountWriter.write(String.valueOf(acctNum));
+			accountWriter.newLine();
+			accountWriter.write(lastName);
+			accountWriter.newLine();
+			accountWriter.write(firstName);
+			accountWriter.newLine();
+			accountWriter.write("" + balance);
+			accountWriter.newLine();
+			accountWriter.write("" + atmAccess);
+
+			accountWriter.close();
+		}
+
+		catch (IOException e){
+			e.printStackTrace();
+		}
+
+	}
+
+	public int getAcctNum(){
+		return acctNum;
+	}
+
+	public void setFirstName(String firstName){
+		this.firstName = firstName;
+
+		try{
+			BufferedWriter accountWriter = new BufferedWriter(new FileWriter(accountFile));
+
+			accountWriter.write(String.valueOf(acctNum));
+			accountWriter.newLine();
+			accountWriter.write(lastName);
+			accountWriter.newLine();
+			accountWriter.write(firstName);
+			accountWriter.newLine();
+			accountWriter.write("" + balance);
+			accountWriter.newLine();
+			accountWriter.write("" + atmAccess);
+
+			accountWriter.close();
+		}
+
+		catch (IOException e){
+			e.printStackTrace();
+		}
+	}
+
+	public String getFirstName(){
+		return firstName;
+	}
+
+	public void setLastName(String lastName){
+		this.lastName = lastName;
+
+		try{
+			BufferedWriter accountWriter = new BufferedWriter(new FileWriter(accountFile));
+
+			accountWriter.write(String.valueOf(acctNum));
+			accountWriter.newLine();
+			accountWriter.write(lastName);
+			accountWriter.newLine();
+			accountWriter.write(firstName);
+			accountWriter.newLine();
+			accountWriter.write("" + balance);
+			accountWriter.newLine();
+			accountWriter.write("" + atmAccess);
+
+			accountWriter.close();
+		}
+
+		catch (IOException e){
+			e.printStackTrace();
+		}
+	}
+
+	public String getLastName(){
+		return lastName;
+	}
+
+	public void setBalance(double balance){
+		this.balance = balance;
+
+		try{
+			BufferedWriter accountWriter = new BufferedWriter(new FileWriter(accountFile));
+
+			accountWriter.write(String.valueOf(acctNum));
+			accountWriter.newLine();
+			accountWriter.write(lastName);
+			accountWriter.newLine();
+			accountWriter.write(firstName);
+			accountWriter.newLine();
+			accountWriter.write("" + balance);
+			accountWriter.newLine();
+			accountWriter.write("" + atmAccess);
+
+			accountWriter.close();
+		}
+
+		catch (IOException e){
+			e.printStackTrace();
+		}
+	}
+
+	public double getBalance(){
+		return balance;
+	}
+
+	public void setAtmAccess(boolean atmAccess){
+		this.atmAccess = atmAccess;
+
+		try{
+			BufferedWriter accountWriter = new BufferedWriter(new FileWriter(accountFile));
+
+			accountWriter.write(String.valueOf(acctNum));
+			accountWriter.newLine();
+			accountWriter.write(lastName);
+			accountWriter.newLine();
+			accountWriter.write(firstName);
+			accountWriter.newLine();
+			accountWriter.write("" + balance);
+			accountWriter.newLine();
+			accountWriter.write("" + atmAccess);
+
+			accountWriter.close();
+		}
+
+		catch (IOException e){
+			e.printStackTrace();
+		}
+	}
+
+	public boolean getAtmAccess(){
+		return atmAccess;
+	}
 	
 } //end of Account
