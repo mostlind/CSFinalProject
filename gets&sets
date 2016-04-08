@@ -36,3 +36,114 @@
 		return acctNum;
 	}
 	
+	public void setFirstName(String firstName){
+		this.firstName = firstName;
+		
+		try{
+			BufferedWriter accountWriter = new BufferedWriter(new FileWriter(accountFile)); 
+			
+			accountWriter.write(String.valueOf(acctNum));
+			accountWriter.newLine();
+			accountWriter.write(lastName);
+			accountWriter.newLine();
+			accountWriter.write(firstName);
+			accountWriter.newLine();
+			accountWriter.write("" + balance); //easy way to make something a string is just | "" + something |
+			accountWriter.newLine();
+			accountWriter.write("" + atmAccess);
+			
+			accountFile.close();
+		}
+		
+		catch (IOException e){
+			e.printStackTrace();
+		}
+	}
+	
+	public String getFirstName(){
+		return firstName;
+	}
+	
+	public void setLastName(String lastName){
+		this.lastName = lastName;
+		
+		try{
+			BufferedWriter accountWriter = new BufferedWriter(new FileWriter(accountFile)); 
+			
+			accountWriter.write(String.valueOf(acctNum));
+			accountWriter.newLine();
+			accountWriter.write(lastName);
+			accountWriter.newLine();
+			accountWriter.write(firstName);
+			accountWriter.newLine();
+			accountWriter.write("" + balance); //easy way to make something a string is just | "" + something |
+			accountWriter.newLine();
+			accountWriter.write("" + atmAccess);
+			
+			accountFile.close();
+		}
+		
+		catch (IOException e){
+			e.printStackTrace();
+		}
+	}
+	
+	public String getLastName(){
+		return lastName;
+	}
+	
+	public void setBalance(double balance){
+		this.balance = balance;
+		
+		try{
+			BufferedWriter accountWriter = new BufferedWriter(new FileWriter(accountFile)); 
+			
+			accountWriter.write(String.valueOf(acctNum));
+			accountWriter.newLine();
+			accountWriter.write(lastName);
+			accountWriter.newLine();
+			accountWriter.write(firstName);
+			accountWriter.newLine();
+			accountWriter.write("" + balance); //easy way to make something a string is just | "" + something |
+			accountWriter.newLine();
+			accountWriter.write("" + atmAccess);
+			
+			accountFile.close();
+		}
+		
+		catch (IOException e){
+			e.printStackTrace();
+		}
+	}
+	
+	public double getBalance(){
+		return balance;
+	}
+	
+	public void setAtmAccess(boolean atmAccess){
+		this.atmAccess = atmAccess;
+		
+		try{
+			BufferedWriter accountWriter = new BufferedWriter(new FileWriter(accountFile)); 
+			
+			accountWriter.write(String.valueOf(acctNum));
+			accountWriter.newLine();
+			accountWriter.write(lastName);
+			accountWriter.newLine();
+			accountWriter.write(firstName);
+			accountWriter.newLine();
+			accountWriter.write("" + balance); //easy way to make something a string is just | "" + something |
+			accountWriter.newLine();
+			accountWriter.write("" + atmAccess);
+			
+			accountFile.close();
+		}
+		
+		catch (IOException e){
+			e.printStackTrace();
+		}
+	}
+	
+	public boolean getAtmAccess(){
+		return atmAccess;
+	}
