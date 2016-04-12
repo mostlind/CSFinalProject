@@ -18,43 +18,46 @@ import javax.swing.*; //UI stuff
 
 public class BankOptions extends JFrame implements WindowListener{ //Frame for UI, Window listener                                               for closing whendow. 
     
-	int accountNumber;
+	private int accountNumber;
     
 	//new button instances
-	JButton depositButton = new JButton("Deposit");
-	JButton withdrawButton = new JButton("Withdraw");
-	JButton checkBalanceButton = new JButton("Check Balance");
-	JButton transferButton = new JButton("Transfer Money");
-	JButton changePasswordButton = new JButton("Change Password");
-	JButton logoutButton = new JButton("Log Out");
+    private JButton depositButton = new JButton("Deposit");
+    private JButton withdrawButton = new JButton("Withdraw");
+    private JButton checkBalanceButton = new JButton("Check Balance");
+    private JButton transferButton = new JButton("Transfer Money");
+    private JButton changePasswordButton = new JButton("Change Password");
+    private JButton logoutButton = new JButton("Log Out");
+    private JPanel buttonPanel = new JPanel();
+    private JPanel infoPanel = new JPanel();
+    private JLabel welcomeLabel;
 	
 	public BankOptions(int anAccountNumber){ //constructor takes account number from login
 		
-		super();
-		
-		accountNumber = anAccountNumber; 
+		super("MCB Financial Services, LLC");
+
+		accountNumber = anAccountNumber;
 		
 		Account account = new Account(accountNumber); //passes account number to Account. This may not be needed.. create Account objects in buttons
-		
+
         //Sets UI stuff, six buttons in a 3x2 grid, attaches Action listeners
-		setLayout(new GridLayout(3,2)); 
+		buttonPanel.setLayout(new GridLayout(6,1));
 		
-		add(depositButton);
+		buttonPanel.add(depositButton);
 		depositButton.addActionListener(new DepositButtonListener());
 		
-		add(withdrawButton);
+		buttonPanel.add(withdrawButton);
 		withdrawButton.addActionListener(new WithdrawButtonListener());
 		
-		add(checkBalanceButton);
+		buttonPanel.add(checkBalanceButton);
 		checkBalanceButton.addActionListener(new CheckBalanceButtonListener());
 		
-		add(transferButton);
+		buttonPanel.add(transferButton);
 		transferButton.addActionListener(new TransferButtonListener());
 		
-		add(changePasswordButton);
+		buttonPanel.add(changePasswordButton);
 		changePasswordButton.addActionListener(new ChangePasswordButtonListener());
 		
-		add(logoutButton); //logout creates new Login object, 
+		buttonPanel.add(logoutButton); //logout creates new Login object,
 		logoutButton.addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent evt){
@@ -62,8 +65,20 @@ public class BankOptions extends JFrame implements WindowListener{ //Frame for U
 				dispose();
 			}
 		});
+
+
+        buttonPanel.setBackground(new Color(130,200,160));
+
+        String welcomeMessage = "<html><font size=+2>Welcome " + account.getFirstName() + ",<br> what would you like to do?</font>";
+        welcomeLabel = new JLabel(welcomeMessage);
+        infoPanel.add(welcomeLabel, BorderLayout.CENTER);
+        infoPanel.setBackground(new Color(130, 200, 160));
+
+        add(buttonPanel, BorderLayout.WEST);
+        add(infoPanel, BorderLayout.CENTER);
+
 		
-		setSize(400,300);
+		setSize(600,400);
 		
 		setVisible(true);
 		
@@ -76,12 +91,11 @@ public class BankOptions extends JFrame implements WindowListener{ //Frame for U
 	private class DepositButtonListener implements ActionListener{
 		
 		@Override
-		public void actionPerformed(ActionEvent evt){//IMPLEMENTING
-			BankOptions.this.setVisible(false);
-			new DepositWindow();
+		public void actionPerformed(ActionEvent evt){
+			new DepositPanel();
 		}
 		
-		private class DepositWindow extends JFrame implements ActionListener{
+		private class DepositPanel implements ActionListener{
 			
 			Account account = new Account(accountNumber);
 			
@@ -89,20 +103,19 @@ public class BankOptions extends JFrame implements WindowListener{ //Frame for U
 			JButton depositButton = new JButton("submit");
 			JLabel depositLabel = new JLabel("How much do you want to deposit?");
 			
-			private DepositWindow() {
-				
-				setLayout(new FlowLayout());
+			private DepositPanel() {
 				
 				depositField.addActionListener(this);
 				depositButton.addActionListener(this);
-				
-				add(depositLabel);
-				add(depositField);
-				add(depositButton);
-				
-				setVisible(true);
-				
-				setSize(350, 120);
+                infoPanel.removeAll();
+                infoPanel.add(depositLabel, BorderLayout.CENTER);
+                infoPanel.add(depositField, BorderLayout.CENTER);
+                infoPanel.add(depositButton, BorderLayout.SOUTH);
+
+                infoPanel.revalidate();
+                infoPanel.repaint();
+
+
 			}
 			
 			public void actionPerformed(ActionEvent evt) {
@@ -113,22 +126,24 @@ public class BankOptions extends JFrame implements WindowListener{ //Frame for U
 				okButton.addActionListener( new ActionListener() {
 					@Override
 					public void actionPerformed(ActionEvent evt){
-						BankOptions.this.setVisible(true);
-						dispose();
+
+                        infoPanel.removeAll();
+                        infoPanel.add(welcomeLabel, BorderLayout.CENTER);
+                        infoPanel.revalidate();
+                        infoPanel.repaint();
+
 					}});
 				
 				double newBalance = account.getBalance() + amountDeposited;
 				account.setBalance(newBalance);
 				
-				remove(depositField);
-				remove(depositButton);
-				remove(depositLabel);
+				infoPanel.removeAll();
 				
-				add(new JLabel("You deposited $" + amountDeposited + ". Your Balance is now " + newBalance));
-				add(okButton);
+				infoPanel.add(new JLabel("You deposited $" + amountDeposited + ". Your Balance is now " + newBalance), BorderLayout.CENTER);
+				infoPanel.add(okButton, BorderLayout.SOUTH);
 				
-				revalidate();
-				repaint();
+				infoPanel.revalidate();
+				infoPanel.repaint();
 				
 			}
 		}
@@ -154,6 +169,7 @@ public class BankOptions extends JFrame implements WindowListener{ //Frame for U
 			//make transfer ... IMPLEMENT LATER
 		}
 	}
+
 	private class ChangePasswordButtonListener implements ActionListener{
 		@Override
 		public void actionPerformed(ActionEvent evt){
