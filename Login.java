@@ -19,20 +19,19 @@ public class Login extends JFrame implements ActionListener, WindowListener{
         //window listener for window close on 'x'
 	
     //new UI objects
-	JLabel acctNumLabel = new JLabel("Account Number: "); //label in front of acctNumField
-	JTextField acctNumField = new JTextField(20); //place to enter account number
-	JLabel passwdLabel = new JLabel("Password: "); //label designating password field
-	JPasswordField passwdField = new JPasswordField(20); //place to put password
-	JButton loginButton = new JButton("Login"); //login button
+	private JLabel acctNumLabel = new JLabel("Account Number: "); //label in front of acctNumField
+	private JTextField acctNumField = new JTextField(20); //place to enter account number
+	private JLabel passwdLabel = new JLabel("Password: "); //label designating password field
+	private JPasswordField passwdField = new JPasswordField(20); //place to put password
+	private JButton loginButton = new JButton("Login"); //login button
+	private JPanel buttonPanel = new JPanel(new BorderLayout());
+	private JLabel badPasswordLabel = new JLabel("<html><font color=red>The password is incorrect<br>or you don't have permission to access ATM</font></html>");
 	
 	
 	public Login() //When login object is created, creates frame and places all necessary UI elements
 	{
 		
 		super();
-		
-		setLayout( new FlowLayout(FlowLayout.RIGHT)); //uses flow layout 
-		
         
         //creates subcontainer, adds acctNum elements to it, adds action listener
         //adds all of that to JFrame
@@ -41,25 +40,29 @@ public class Login extends JFrame implements ActionListener, WindowListener{
 		acctNumPanel.add(acctNumLabel); //add to JPanel
 		acctNumPanel.add(acctNumField); //add to JPanel
 		acctNumField.addActionListener(this);
-		add(acctNumPanel); //Adds JPanel with elements to JFrame
+		add(acctNumPanel, BorderLayout.NORTH); //Adds JPanel with elements to JFrame
 		
         //Same for passwd Elements
 		JPanel passwdPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
 		passwdPanel.add(passwdLabel);
 		passwdPanel.add(passwdField);
 		passwdField.addActionListener(this);
-		add(passwdPanel);
+		add(passwdPanel, BorderLayout.CENTER);
 		
         //Adds button to JFrame, adds action listener
-		add(loginButton);
+		buttonPanel.add(loginButton, BorderLayout.CENTER);
 		loginButton.addActionListener(this);
+        buttonPanel.add(badPasswordLabel, BorderLayout.NORTH);
+        badPasswordLabel.setVisible(false);
+		add(buttonPanel,BorderLayout.SOUTH);
+
 		
 		setTitle("Login");
-		setSize(400,150);
+		setSize(400,160);
 		
 		setVisible(true);
 		
-		setResizable(false); //user can't change window size
+		//setResizable(false); //user can't change window size
 		
 		addWindowListener(this); //for close on x
 		
@@ -100,8 +103,9 @@ public class Login extends JFrame implements ActionListener, WindowListener{
 			if (accountNumber == Integer.parseInt(acctNumField.getText()))
 			{
 				String password = loginStream.next();
+                Account account = new Account(accountNumber);
 				
-				if (password.equals(passwdField.getText())) {
+				if (password.equals(passwdField.getText()) && account.getAtmAccess()) {
 					
 					loginStream.close();
 			
@@ -111,6 +115,13 @@ public class Login extends JFrame implements ActionListener, WindowListener{
 						
 					break; //don't think this is necessary, dispose() probably ends the process
 					
+				} else {
+                    if (!badPasswordLabel.isVisible()) {
+                        badPasswordLabel.setVisible(true);
+                        buttonPanel.revalidate();
+                        buttonPanel.repaint();
+
+                    }
 				}
 				
 			} else {	

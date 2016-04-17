@@ -11,7 +11,6 @@ package BankAccount;
 
 import java.awt.*; //Layouts
 import java.awt.event.*; //event-handling stuff
-import java.math.BigDecimal;
 
 import javax.swing.*; //UI stuff
 
