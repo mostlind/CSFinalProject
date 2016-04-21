@@ -13,6 +13,8 @@ import java.awt.*; //Layouts
 import java.awt.event.*; //event-handling stuff
 
 import javax.swing.*; //UI stuff
+import java.io.*;
+import java.util.Scanner;
 
 
 public class BankOptions extends JFrame implements WindowListener{ //Frame for UI, Window listener                                               for closing whendow. 
@@ -149,32 +151,263 @@ public class BankOptions extends JFrame implements WindowListener{ //Frame for U
 	}
 	
 	private class WithdrawButtonListener implements ActionListener{
+
 		@Override
-		public void actionPerformed(ActionEvent evt){
-			//withdraw money... IMPLEMENT LATER
-		}
-	}
+        public void actionPerformed(ActionEvent evt){ new WithdrawPanel(); }
+
+        private class WithdrawPanel implements ActionListener{
+
+            Account account = new Account(accountNumber);
+
+            JTextField withdrawField = new JTextField(20);
+            JButton withdrawButton = new JButton("submit");
+            JLabel withdrawLabel = new JLabel("How much do you want to withdraw?");
+
+            private WithdrawPanel(){
+                withdrawField.addActionListener(this);
+                withdrawButton.addActionListener(this);
+                infoPanel.removeAll();
+                infoPanel.add(withdrawLabel, BorderLayout.CENTER);
+                infoPanel.add(withdrawField, BorderLayout.CENTER);
+                infoPanel.add(withdrawButton, BorderLayout.SOUTH);
+
+                infoPanel.revalidate();
+                infoPanel.repaint();
+
+            }
+
+            public void actionPerformed(ActionEvent evt) {
+
+                Double amountWithdrawn = Double.parseDouble(withdrawField.getText());
+
+                JButton okButton = new JButton("Okay");
+                okButton.addActionListener(new ActionListener(){
+                    @Override
+                    public void actionPerformed(ActionEvent evt){
+                        infoPanel.removeAll();
+                        infoPanel.add(welcomeLabel, BorderLayout.CENTER);
+                        infoPanel.revalidate();
+                        infoPanel.repaint();
+                    }
+
+                });
+                double newBalance = account.getBalance()-amountWithdrawn;
+                account.setBalance(newBalance);
+
+                infoPanel.removeAll();
+
+                infoPanel.add(new JLabel("You withdrew $"+amountWithdrawn+". Your Balance is now "+newBalance), BorderLayout.CENTER);
+                infoPanel.add(okButton, BorderLayout.SOUTH);
+
+                infoPanel.revalidate();
+                infoPanel.repaint();
+            }
+        }
+    }
 	
 	private class CheckBalanceButtonListener implements ActionListener{
-		@Override
-		public void actionPerformed(ActionEvent evt){
-			//show balance ... IMPLEMENT LATER
-		}
-	}
+        @Override
+        public void actionPerformed(ActionEvent evt){
+            new BalancePanel();
+        }
+
+        private class BalancePanel implements ActionListener{
+
+            Account account = new Account(accountNumber);
+
+            JButton balanceButton = new JButton ("okay");
+            JLabel balanceLabel = new JLabel("Your balance is"+account.getBalance());
+
+            private BalancePanel() {
+
+                balanceButton.addActionListener(this);
+                infoPanel.removeAll();
+                infoPanel.add(balanceButton, BorderLayout.SOUTH);
+                infoPanel.add(balanceLabel, BorderLayout.CENTER);
+
+                infoPanel.revalidate();
+                infoPanel.repaint();
+            }
+
+            public void actionPerformed(ActionEvent evt){
+
+                infoPanel.removeAll();
+                infoPanel.add(welcomeLabel, BorderLayout.CENTER);
+                infoPanel.revalidate();
+                infoPanel.repaint();
+            }
+
+        }
+    }
 	
 	private class TransferButtonListener implements ActionListener {
-		@Override
-		public void actionPerformed(ActionEvent evt){
-			//make transfer ... IMPLEMENT LATER
-		}
-	}
+        @Override
+        public void actionPerformed(ActionEvent evt){
+            new TransferPanel();
+        }
 
-	private class ChangePasswordButtonListener implements ActionListener{
+        private class TransferPanel implements ActionListener{
+
+            Account account = new Account(accountNumber);
+
+            JTextField transtoField = new JTextField(20);
+            JLabel transtoLabel = new JLabel("Enter the account number of the person you'd like to transfer to.");
+            JTextField transferField = new JTextField(20);
+            JLabel transferLabel = new JLabel("How much do you want to transfer?");
+            JButton transferButton = new JButton("Transfer");
+
+
+            private TransferPanel(){
+                transferButton.addActionListener(this);
+                transferField.addActionListener(this);
+                transtoField.addActionListener(this);
+                infoPanel.removeAll();
+                infoPanel.add(transtoLabel, BorderLayout.CENTER);
+                infoPanel.add(transtoField, BorderLayout.CENTER);
+                infoPanel.add(transferLabel, BorderLayout.CENTER);
+                infoPanel.add(transferField, BorderLayout.CENTER);
+                infoPanel.add(transferButton, BorderLayout.SOUTH);
+
+                infoPanel.revalidate();
+                infoPanel.repaint();
+
+
+
+            }
+
+            public void actionPerformed (ActionEvent evt){
+
+                Double amountTrans = Double.parseDouble(transferField.getText());
+                int transNum = Integer.parseInt(transtoField.getText());
+
+                JButton okButton = new JButton("Okay");
+                okButton.addActionListener( new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent evt){
+                        infoPanel.removeAll();
+                        infoPanel.add(welcomeLabel, BorderLayout.CENTER);
+                        infoPanel.revalidate();
+                        infoPanel.repaint();
+
+                    }});
+
+                double newBalance = account.getBalance()-amountTrans;
+                account.setBalance(newBalance);
+                Account accountTrans = new Account(transNum);
+                double transAccountNewBalance = accountTrans.getBalance()+amountTrans;
+                accountTrans.setBalance(transAccountNewBalance);
+
+                infoPanel.removeAll();
+
+                infoPanel.add(new JLabel("You transfered $" +amountTrans+". Your Balance is now"+ newBalance), BorderLayout.CENTER);
+                infoPanel.add(okButton, BorderLayout.SOUTH);
+
+                infoPanel.revalidate();
+                infoPanel.repaint();
+            }
+        }
+    }
+
+	private class ChangePasswordButtonListener implements ActionListener {
+
 		@Override
-		public void actionPerformed(ActionEvent evt){
-			//change password ... IMPLEMENT LATER
-		}
-	}
+		public void actionPerformed(ActionEvent evt) { new changePasswordPanel(); }
+
+		private class changePasswordPanel implements ActionListener {
+
+			JPasswordField oldPassword = new JPasswordField(20);
+			JPasswordField newPassword = new JPasswordField(20);
+			JPasswordField confirmNewPassword = new JPasswordField(20);
+			JButton submitButton = new JButton("Change Password");
+			JLabel oldPasswordLabel = new JLabel("Current Password: ");
+			JLabel newPasswordLabel = new JLabel("New Password: ");
+			JLabel confirmNewPasswordLabel = new JLabel("Confirm New Password: ");
+
+
+			private changePasswordPanel () {
+
+				oldPassword.addActionListener(this);
+				newPassword.addActionListener(this);
+				confirmNewPassword.addActionListener(this);
+				changePasswordButton.addActionListener(this);
+				submitButton.addActionListener(this);
+
+				infoPanel.removeAll();
+				infoPanel.add(oldPassword, BorderLayout.CENTER);
+				infoPanel.add(newPassword, BorderLayout.CENTER);
+				infoPanel.add(confirmNewPassword, BorderLayout.CENTER);
+				infoPanel.add(oldPasswordLabel, BorderLayout.WEST);
+				infoPanel.add(newPasswordLabel, BorderLayout.WEST);
+				infoPanel.add(confirmNewPasswordLabel, BorderLayout.WEST);
+				infoPanel.add(submitButton, BorderLayout.SOUTH);
+
+				infoPanel.revalidate();
+				infoPanel.repaint();
+
+			}
+
+			public void actionPerformed(ActionEvent evt) {
+
+                String userPath = System.getProperty("user.dir");
+                Scanner loginInfoStream = null;
+                File loginInfo = new File(userPath, "loginInfo.txt");
+
+				try{
+					loginInfoStream = new Scanner(loginInfo);
+				}
+				catch(FileNotFoundException e){
+					System.out.println("File does not exist");
+				}
+
+                boolean flag = false;
+				while(loginInfoStream.hasNext()){
+
+                    int acctNumToTest = loginInfoStream.nextInt();
+                    String passwordToTest = loginInfoStream.next();
+
+					if ((accountNumber == acctNumToTest) && (oldPassword.getText().equals(passwordToTest)) &&
+                            (newPassword.getText().equals(confirmNewPassword.getText()))) {
+                        String line = null;
+                        BufferedWriter passwordChanger = null;
+                        BufferedReader loginFileReader = null;
+                        File tempFile = new File(userPath, "temp.txt");
+
+                        try {
+                            passwordChanger = new BufferedWriter(new FileWriter(tempFile));
+                            loginFileReader = new BufferedReader(new FileReader(loginInfo));
+
+                            while ((line = loginFileReader.readLine()) != null) {
+                                line  = line.replaceAll(accountNumber + " " + oldPassword.getText(),
+                                        accountNumber + " " + newPassword.getText());
+
+                                passwordChanger.write(line);
+                                passwordChanger.newLine();
+
+                            }
+
+                            loginInfo.delete();
+                            tempFile.renameTo(loginInfo);
+
+                            passwordChanger.close();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+					}
+
+			    }
+
+                loginInfoStream.close();
+
+
+                infoPanel.removeAll();
+                infoPanel.add(welcomeLabel, BorderLayout.CENTER);
+                infoPanel.revalidate();
+                infoPanel.repaint();
+
+            }//and of actionPerformed
+        }//end of changePasswordPanel
+    }//end of changePasswordButtonListener
+
 	
 	
 	@Override
