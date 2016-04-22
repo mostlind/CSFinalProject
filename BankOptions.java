@@ -24,15 +24,19 @@ public class BankOptions extends JFrame implements WindowListener{ //Frame for U
 	//new button instances
     private JButton depositButton = new JButton("Deposit");
     private JButton withdrawButton = new JButton("Withdraw");
-    private JButton checkBalanceButton = new JButton("Check Balance");
-    private JButton transferButton = new JButton("Transfer Money");
-    private JButton changePasswordButton = new JButton("Change Password");
+    private JButton checkBalanceButton = new JButton("<html><center>Check<br>Balance</center></html>");
+    private JButton transferButton = new JButton("Transfers");
+    private JButton changePasswordButton = new JButton("<html><center>Change<br>Password</center></html>");
     private JButton logoutButton = new JButton("Log Out");
     private JPanel buttonPanel = new JPanel();
     private JPanel infoPanel = new JPanel();
     private JLabel welcomeLabel;
+    private final static Color BACKGROUND_COLOR = new Color(40,120,80);
+
+
 	
 	public BankOptions(int anAccountNumber){ //constructor takes account number from login
+
 		
 		super("MCB Financial Services, LLC");
 
@@ -42,7 +46,7 @@ public class BankOptions extends JFrame implements WindowListener{ //Frame for U
 
         //Sets UI stuff, six buttons in a 3x2 grid, attaches Action listeners
 		buttonPanel.setLayout(new GridLayout(6,1));
-		
+
 		buttonPanel.add(depositButton);
 		depositButton.addActionListener(new DepositButtonListener());
 		
@@ -67,13 +71,12 @@ public class BankOptions extends JFrame implements WindowListener{ //Frame for U
 			}
 		});
 
+        buttonPanel.setBackground(BACKGROUND_COLOR);
 
-        buttonPanel.setBackground(new Color(130,200,160));
-
-        String welcomeMessage = "<html><font size=+2>Welcome " + account.getFirstName() + ",<br> what would you like to do?</font>";
+        String welcomeMessage = "<html><font size=+2 color=white><center>Welcome " + account.getFirstName() + ",<br> what would you like to do?</center></font></html>";
         welcomeLabel = new JLabel(welcomeMessage);
         infoPanel.add(welcomeLabel, BorderLayout.CENTER);
-        infoPanel.setBackground(new Color(130, 200, 160));
+        infoPanel.setBackground(BACKGROUND_COLOR);
 
         add(buttonPanel, BorderLayout.WEST);
         add(infoPanel, BorderLayout.CENTER);
@@ -86,25 +89,25 @@ public class BankOptions extends JFrame implements WindowListener{ //Frame for U
 		addWindowListener(this); //for closing window on pressing x
 		
 	}
-    
+
     
 	//Button listeners, code will run when corresponding button is pressed
 	private class DepositButtonListener implements ActionListener{
 		
 		@Override
 		public void actionPerformed(ActionEvent evt){
-			new DepositPanel();
+			new DepositPage();
 		}
 		
-		private class DepositPanel implements ActionListener{
+		private class DepositPage implements ActionListener{
 			
 			Account account = new Account(accountNumber);
 			
 			JTextField depositField = new JTextField(20);
 			JButton depositButton = new JButton("submit");
-			JLabel depositLabel = new JLabel("How much do you want to deposit?");
+			JLabel depositLabel = new JLabel("<html><font color=white size=+1>How much do you want to deposit?</font></html>");
 			
-			private DepositPanel() {
+			private DepositPage() {
 				
 				depositField.addActionListener(this);
 				depositButton.addActionListener(this);
@@ -140,7 +143,7 @@ public class BankOptions extends JFrame implements WindowListener{ //Frame for U
 				
 				infoPanel.removeAll();
 				
-				infoPanel.add(new JLabel("You deposited $" + amountDeposited + ". Your Balance is now " + newBalance), BorderLayout.CENTER);
+				infoPanel.add(new JLabel("<html><font color=white size=+1>You deposited $" + amountDeposited + ". Your Balance is now " + newBalance +"</font></html>"), BorderLayout.CENTER);
 				infoPanel.add(okButton, BorderLayout.SOUTH);
 				
 				infoPanel.revalidate();
@@ -153,17 +156,17 @@ public class BankOptions extends JFrame implements WindowListener{ //Frame for U
 	private class WithdrawButtonListener implements ActionListener{
 
 		@Override
-        public void actionPerformed(ActionEvent evt){ new WithdrawPanel(); }
+        public void actionPerformed(ActionEvent evt){ new WithdrawPage(); }
 
-        private class WithdrawPanel implements ActionListener{
+        private class WithdrawPage implements ActionListener{
 
             Account account = new Account(accountNumber);
 
             JTextField withdrawField = new JTextField(20);
             JButton withdrawButton = new JButton("submit");
-            JLabel withdrawLabel = new JLabel("How much do you want to withdraw?");
+            JLabel withdrawLabel = new JLabel("<html><font color=white size=+1>How much do you want to withdraw?</font></html>");
 
-            private WithdrawPanel(){
+            private WithdrawPage(){
                 withdrawField.addActionListener(this);
                 withdrawButton.addActionListener(this);
                 infoPanel.removeAll();
@@ -196,7 +199,7 @@ public class BankOptions extends JFrame implements WindowListener{ //Frame for U
 
                 infoPanel.removeAll();
 
-                infoPanel.add(new JLabel("You withdrew $"+amountWithdrawn+". Your Balance is now "+newBalance), BorderLayout.CENTER);
+                infoPanel.add(new JLabel("<html><font color=white size=+1>You withdrew $"+amountWithdrawn+".<br> Your Balance is now "+newBalance + "</font></html>"), BorderLayout.CENTER);
                 infoPanel.add(okButton, BorderLayout.SOUTH);
 
                 infoPanel.revalidate();
@@ -207,23 +210,21 @@ public class BankOptions extends JFrame implements WindowListener{ //Frame for U
 	
 	private class CheckBalanceButtonListener implements ActionListener{
         @Override
-        public void actionPerformed(ActionEvent evt){
-            new BalancePanel();
-        }
+        public void actionPerformed(ActionEvent evt){ new BalancePage(); }
 
-        private class BalancePanel implements ActionListener{
+        private class BalancePage implements ActionListener{
 
             Account account = new Account(accountNumber);
 
             JButton balanceButton = new JButton ("okay");
-            JLabel balanceLabel = new JLabel("Your balance is"+account.getBalance());
+            JLabel balanceLabel = new JLabel("<html><font color=white size=+2>Your balance is "+account.getBalance() + "</font></html>");
 
-            private BalancePanel() {
+            private BalancePage() {
 
                 balanceButton.addActionListener(this);
                 infoPanel.removeAll();
-                infoPanel.add(balanceButton, BorderLayout.SOUTH);
                 infoPanel.add(balanceLabel, BorderLayout.CENTER);
+                infoPanel.add(balanceButton, BorderLayout.SOUTH);
 
                 infoPanel.revalidate();
                 infoPanel.repaint();
@@ -242,30 +243,40 @@ public class BankOptions extends JFrame implements WindowListener{ //Frame for U
 	
 	private class TransferButtonListener implements ActionListener {
         @Override
-        public void actionPerformed(ActionEvent evt){
-            new TransferPanel();
-        }
+        public void actionPerformed(ActionEvent evt){ new TransferPage(); }
 
-        private class TransferPanel implements ActionListener{
+        private class TransferPage implements ActionListener{
 
             Account account = new Account(accountNumber);
 
-            JTextField transtoField = new JTextField(20);
-            JLabel transtoLabel = new JLabel("Enter the account number of the person you'd like to transfer to.");
-            JTextField transferField = new JTextField(20);
-            JLabel transferLabel = new JLabel("How much do you want to transfer?");
+            JTextField transtoField = new JTextField(15);
+            JLabel transtoLabel = new JLabel("<html><font color=white size=+1>What is the recipient's account number?</font></html>");
+            JTextField transferField = new JTextField(15);
+            JLabel transferLabel = new JLabel("<html><font color=white size=+1>How much do you want to transfer?</font></html>");
             JButton transferButton = new JButton("Transfer");
+            JPanel transtoPanel = new JPanel();
+            JPanel transferPanel = new JPanel();
 
 
-            private TransferPanel(){
+            private TransferPage() {
+
+                transferPanel.setLayout(new BoxLayout(transferPanel, BoxLayout.Y_AXIS));
+                transferPanel.setBackground(BACKGROUND_COLOR);
+                transtoPanel.setLayout(new BoxLayout(transtoPanel, BoxLayout.Y_AXIS));
+                transtoPanel.setBackground(BACKGROUND_COLOR);
+
                 transferButton.addActionListener(this);
                 transferField.addActionListener(this);
                 transtoField.addActionListener(this);
+                transtoPanel.add(transtoLabel);
+                transtoPanel.add(transtoField);
+
+                transferPanel.add(transferLabel);
+                transferPanel.add(transferField);
+
                 infoPanel.removeAll();
-                infoPanel.add(transtoLabel, BorderLayout.CENTER);
-                infoPanel.add(transtoField, BorderLayout.CENTER);
-                infoPanel.add(transferLabel, BorderLayout.CENTER);
-                infoPanel.add(transferField, BorderLayout.CENTER);
+                infoPanel.add(transtoPanel, BorderLayout.CENTER);
+                infoPanel.add(transferPanel, BorderLayout.CENTER);
                 infoPanel.add(transferButton, BorderLayout.SOUTH);
 
                 infoPanel.revalidate();
@@ -299,7 +310,7 @@ public class BankOptions extends JFrame implements WindowListener{ //Frame for U
 
                 infoPanel.removeAll();
 
-                infoPanel.add(new JLabel("You transfered $" +amountTrans+". Your Balance is now"+ newBalance), BorderLayout.CENTER);
+                infoPanel.add(new JLabel("<html><font size=+1 color=white>You transfered $" +amountTrans+". Your Balance is now "+ newBalance + "</font></html>"), BorderLayout.CENTER);
                 infoPanel.add(okButton, BorderLayout.SOUTH);
 
                 infoPanel.revalidate();
@@ -311,35 +322,42 @@ public class BankOptions extends JFrame implements WindowListener{ //Frame for U
 	private class ChangePasswordButtonListener implements ActionListener {
 
 		@Override
-		public void actionPerformed(ActionEvent evt) { new changePasswordPanel(); }
+		public void actionPerformed(ActionEvent evt) { new changePasswordPage(); }
 
-		private class changePasswordPanel implements ActionListener {
+		private class changePasswordPage implements ActionListener {
 
-			JPasswordField oldPassword = new JPasswordField(20);
-			JPasswordField newPassword = new JPasswordField(20);
-			JPasswordField confirmNewPassword = new JPasswordField(20);
+			JPasswordField oldPasswordField = new JPasswordField(18);
+			JPasswordField newPasswordField = new JPasswordField(18);
+			JPasswordField confirmNewPasswordField = new JPasswordField(18);
 			JButton submitButton = new JButton("Change Password");
-			JLabel oldPasswordLabel = new JLabel("Current Password: ");
-			JLabel newPasswordLabel = new JLabel("New Password: ");
-			JLabel confirmNewPasswordLabel = new JLabel("Confirm New Password: ");
+			JLabel oldPasswordLabel = new JLabel("<html><font color=white>Current Password:</font></html>");
+			JLabel newPasswordLabel = new JLabel("<html><font color=white>New Password:</font></html>");
+			JLabel confirmNewPasswordLabel = new JLabel("<html><font color=white>Confirm New Password:</font></html>");
+            JPanel changePasswordPanel = new JPanel();
 
-
-			private changePasswordPanel () {
-
-				oldPassword.addActionListener(this);
-				newPassword.addActionListener(this);
-				confirmNewPassword.addActionListener(this);
+			private changePasswordPage () {
+                changePasswordPanel.setLayout(new BoxLayout(changePasswordPanel, BoxLayout.Y_AXIS));
+				oldPasswordField.addActionListener(this);
+				newPasswordField.addActionListener(this);
+				confirmNewPasswordField.addActionListener(this);
 				changePasswordButton.addActionListener(this);
 				submitButton.addActionListener(this);
+                changePasswordPanel.setBackground(BACKGROUND_COLOR);
 
-				infoPanel.removeAll();
-				infoPanel.add(oldPassword, BorderLayout.CENTER);
-				infoPanel.add(newPassword, BorderLayout.CENTER);
-				infoPanel.add(confirmNewPassword, BorderLayout.CENTER);
-				infoPanel.add(oldPasswordLabel, BorderLayout.WEST);
-				infoPanel.add(newPasswordLabel, BorderLayout.WEST);
-				infoPanel.add(confirmNewPasswordLabel, BorderLayout.WEST);
-				infoPanel.add(submitButton, BorderLayout.SOUTH);
+
+                changePasswordPanel.add(oldPasswordLabel);
+				changePasswordPanel.add(oldPasswordField);
+
+                changePasswordPanel.add(newPasswordLabel);
+				changePasswordPanel.add(newPasswordField);
+
+                changePasswordPanel.add(confirmNewPasswordLabel);
+                changePasswordPanel.add(confirmNewPasswordField);
+
+				changePasswordPanel.add(submitButton);
+
+                infoPanel.removeAll();
+                infoPanel.add(changePasswordPanel, BorderLayout.CENTER);
 
 				infoPanel.revalidate();
 				infoPanel.repaint();
@@ -365,8 +383,8 @@ public class BankOptions extends JFrame implements WindowListener{ //Frame for U
                     int acctNumToTest = loginInfoStream.nextInt();
                     String passwordToTest = loginInfoStream.next();
 
-					if ((accountNumber == acctNumToTest) && (oldPassword.getText().equals(passwordToTest)) &&
-                            (newPassword.getText().equals(confirmNewPassword.getText()))) {
+					if ((accountNumber == acctNumToTest) && (oldPasswordField.getText().equals(passwordToTest)) &&
+                            (newPasswordField.getText().equals(confirmNewPasswordField.getText()))) {
                         String line = null;
                         BufferedWriter passwordChanger = null;
                         BufferedReader loginFileReader = null;
@@ -377,8 +395,8 @@ public class BankOptions extends JFrame implements WindowListener{ //Frame for U
                             loginFileReader = new BufferedReader(new FileReader(loginInfo));
 
                             while ((line = loginFileReader.readLine()) != null) {
-                                line  = line.replaceAll(accountNumber + " " + oldPassword.getText(),
-                                        accountNumber + " " + newPassword.getText());
+                                line  = line.replaceAll(accountNumber + " " + oldPasswordField.getText(),
+                                        accountNumber + " " + newPasswordField.getText());
 
                                 passwordChanger.write(line);
                                 passwordChanger.newLine();
