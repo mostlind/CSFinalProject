@@ -174,6 +174,7 @@ public class BankOptions extends JFrame implements WindowListener{ //Frame for U
                 infoPanel.add(withdrawField, BorderLayout.CENTER);
                 infoPanel.add(withdrawButton, BorderLayout.SOUTH);
 
+
                 infoPanel.revalidate();
                 infoPanel.repaint();
 
@@ -194,16 +195,27 @@ public class BankOptions extends JFrame implements WindowListener{ //Frame for U
                     }
 
                 });
-                double newBalance = account.getBalance()-amountWithdrawn;
-                account.setBalance(newBalance);
 
-                infoPanel.removeAll();
+                if (amountWithdrawn < account.getBalance()) {
+                    double newBalance = account.getBalance() - amountWithdrawn;
+                    account.setBalance(newBalance);
 
-                infoPanel.add(new JLabel("<html><font color=white size=+1>You withdrew $"+amountWithdrawn+".<br> Your Balance is now "+newBalance + "</font></html>"), BorderLayout.CENTER);
-                infoPanel.add(okButton, BorderLayout.SOUTH);
+                    infoPanel.removeAll();
 
-                infoPanel.revalidate();
-                infoPanel.repaint();
+                    infoPanel.add(new JLabel("<html><font color=white size=+1>You withdrew $" + amountWithdrawn + ".<br> Your Balance is now " + newBalance + "</font></html>"), BorderLayout.CENTER);
+                    infoPanel.add(okButton, BorderLayout.SOUTH);
+
+                    infoPanel.revalidate();
+                    infoPanel.repaint();
+                }
+                else {
+                    infoPanel.removeAll();
+                    infoPanel.add(new JLabel("<html><font color=red>Insufficient Funds</font></html>"));
+                    infoPanel.add(okButton, BorderLayout.SOUTH);
+                    infoPanel.revalidate();
+                    infoPanel.repaint();
+
+                }
             }
         }
     }
@@ -217,7 +229,7 @@ public class BankOptions extends JFrame implements WindowListener{ //Frame for U
             Account account = new Account(accountNumber);
 
             JButton balanceButton = new JButton ("okay");
-            JLabel balanceLabel = new JLabel("<html><font color=white size=+2>Your balance is "+account.getBalance() + "</font></html>");
+            JLabel balanceLabel = new JLabel("<html><font color=white size=+2>Your balance is $"+account.getBalance() + "</font></html>");
 
             private BalancePage() {
 
@@ -301,20 +313,28 @@ public class BankOptions extends JFrame implements WindowListener{ //Frame for U
                         infoPanel.repaint();
 
                     }});
+                if (amountTrans < account.getBalance()) {
+                    double newBalance = account.getBalance() - amountTrans;
+                    account.setBalance(newBalance);
+                    Account accountTrans = new Account(transNum);
+                    double transAccountNewBalance = accountTrans.getBalance() + amountTrans;
+                    accountTrans.setBalance(transAccountNewBalance);
 
-                double newBalance = account.getBalance()-amountTrans;
-                account.setBalance(newBalance);
-                Account accountTrans = new Account(transNum);
-                double transAccountNewBalance = accountTrans.getBalance()+amountTrans;
-                accountTrans.setBalance(transAccountNewBalance);
+                    infoPanel.removeAll();
 
-                infoPanel.removeAll();
+                    infoPanel.add(new JLabel("<html><font size=+1 color=white>You transfered $" + amountTrans + ". Your Balance is now " + newBalance + "</font></html>"), BorderLayout.CENTER);
+                    infoPanel.add(okButton, BorderLayout.SOUTH);
 
-                infoPanel.add(new JLabel("<html><font size=+1 color=white>You transfered $" +amountTrans+". Your Balance is now "+ newBalance + "</font></html>"), BorderLayout.CENTER);
-                infoPanel.add(okButton, BorderLayout.SOUTH);
-
-                infoPanel.revalidate();
-                infoPanel.repaint();
+                    infoPanel.revalidate();
+                    infoPanel.repaint();
+                }
+                else {
+                    infoPanel.removeAll();
+                    infoPanel.add(new JLabel("<html><font color=red>Insufficient Funds. Transfer not completed</font></html>"));
+                    infoPanel.add(okButton, BorderLayout.SOUTH);
+                    infoPanel.revalidate();
+                    infoPanel.repaint();
+                }
             }
         }
     }
@@ -377,7 +397,6 @@ public class BankOptions extends JFrame implements WindowListener{ //Frame for U
 					System.out.println("File does not exist");
 				}
 
-                boolean flag = false;
 				while(loginInfoStream.hasNext()){
 
                     int acctNumToTest = loginInfoStream.nextInt();
@@ -406,7 +425,10 @@ public class BankOptions extends JFrame implements WindowListener{ //Frame for U
                             loginInfo.delete();
                             tempFile.renameTo(loginInfo);
 
+
+                            loginFileReader.close();
                             passwordChanger.close();
+
                         } catch (IOException e) {
                             e.printStackTrace();
                         }
@@ -415,7 +437,6 @@ public class BankOptions extends JFrame implements WindowListener{ //Frame for U
 			    }
 
                 loginInfoStream.close();
-
 
                 infoPanel.removeAll();
                 infoPanel.add(welcomeLabel, BorderLayout.CENTER);

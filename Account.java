@@ -51,30 +51,36 @@ public class Account {
 	
 	//get and set for all variables
 
+	private void writeToAccount() {
+
+        try{
+
+            BufferedWriter accountWriter = new BufferedWriter(new FileWriter(accountFile));
+
+            accountWriter.write(String.valueOf(acctNum));
+            accountWriter.newLine();
+            accountWriter.write(lastName);
+            accountWriter.newLine();
+            accountWriter.write(firstName);
+            accountWriter.newLine();
+            accountWriter.write("" + balance);
+            accountWriter.newLine();
+            accountWriter.write("" + atmAccess);
+
+            accountWriter.close();
+        }
+
+        catch (IOException e){
+            e.printStackTrace();
+        }
+
+    }
+
 
 	public void setAcctNum(int acctNum){ 	//sets acctNum variable and rewrites file
+
 		this.acctNum = acctNum;
-
-		try{
-
-			BufferedWriter accountWriter = new BufferedWriter(new FileWriter(accountFile));
-
-			accountWriter.write(String.valueOf(acctNum));
-			accountWriter.newLine();
-			accountWriter.write(lastName);
-			accountWriter.newLine();
-			accountWriter.write(firstName);
-			accountWriter.newLine();
-			accountWriter.write("" + balance);
-			accountWriter.newLine();
-			accountWriter.write("" + atmAccess);
-
-			accountWriter.close();
-		}
-
-		catch (IOException e){
-			e.printStackTrace();
-		}
+        writeToAccount();
 
 	}
 
@@ -83,27 +89,9 @@ public class Account {
 	}
 
 	public void setFirstName(String firstName){
+
 		this.firstName = firstName;
-
-		try{
-			BufferedWriter accountWriter = new BufferedWriter(new FileWriter(accountFile));
-
-			accountWriter.write(String.valueOf(acctNum));
-			accountWriter.newLine();
-			accountWriter.write(lastName);
-			accountWriter.newLine();
-			accountWriter.write(firstName);
-			accountWriter.newLine();
-			accountWriter.write("" + balance);
-			accountWriter.newLine();
-			accountWriter.write("" + atmAccess);
-
-			accountWriter.close();
-		}
-
-		catch (IOException e){
-			e.printStackTrace();
-		}
+        writeToAccount();
 	}
 
 	public String getFirstName(){
@@ -111,27 +99,10 @@ public class Account {
 	}
 
 	public void setLastName(String lastName){
+
 		this.lastName = lastName;
+        writeToAccount();
 
-		try{
-			BufferedWriter accountWriter = new BufferedWriter(new FileWriter(accountFile));
-
-			accountWriter.write(String.valueOf(acctNum));
-			accountWriter.newLine();
-			accountWriter.write(lastName);
-			accountWriter.newLine();
-			accountWriter.write(firstName);
-			accountWriter.newLine();
-			accountWriter.write("" + balance);
-			accountWriter.newLine();
-			accountWriter.write("" + atmAccess);
-
-			accountWriter.close();
-		}
-
-		catch (IOException e){
-			e.printStackTrace();
-		}
 	}
 
 	public String getLastName(){
@@ -139,27 +110,10 @@ public class Account {
 	}
 
 	public void setBalance(double balance){
+
 		this.balance = balance;
+        writeToAccount();
 
-		try{
-			BufferedWriter accountWriter = new BufferedWriter(new FileWriter(accountFile));
-
-			accountWriter.write(String.valueOf(acctNum));
-			accountWriter.newLine();
-			accountWriter.write(lastName);
-			accountWriter.newLine();
-			accountWriter.write(firstName);
-			accountWriter.newLine();
-			accountWriter.write("" + balance);
-			accountWriter.newLine();
-			accountWriter.write("" + atmAccess);
-
-			accountWriter.close();
-		}
-
-		catch (IOException e){
-			e.printStackTrace();
-		}
 	}
 
 	public double getBalance(){
@@ -167,27 +121,10 @@ public class Account {
 	}
 
 	public void setAtmAccess(boolean atmAccess){
+
 		this.atmAccess = atmAccess;
+        writeToAccount();
 
-		try{
-			BufferedWriter accountWriter = new BufferedWriter(new FileWriter(accountFile));
-
-			accountWriter.write(String.valueOf(acctNum));
-			accountWriter.newLine();
-			accountWriter.write(lastName);
-			accountWriter.newLine();
-			accountWriter.write(firstName);
-			accountWriter.newLine();
-			accountWriter.write("" + balance);
-			accountWriter.newLine();
-			accountWriter.write("" + atmAccess);
-
-			accountWriter.close();
-		}
-
-		catch (IOException e){
-			e.printStackTrace();
-		}
 	}
 
 	public boolean getAtmAccess(){
