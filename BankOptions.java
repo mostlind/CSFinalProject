@@ -268,6 +268,7 @@ public class BankOptions extends JFrame implements WindowListener{ //Frame for U
             JButton transferButton = new JButton("Transfer");
             JPanel transtoPanel = new JPanel();
             JPanel transferPanel = new JPanel();
+            JLabel fileNotFoundLabel = new JLabel("<html><font color=white>Account Doesn't exist</font></html>");
 
 
             private TransferPage() {
@@ -285,6 +286,8 @@ public class BankOptions extends JFrame implements WindowListener{ //Frame for U
 
                 transferPanel.add(transferLabel);
                 transferPanel.add(transferField);
+                transferPanel.add(fileNotFoundLabel);
+                fileNotFoundLabel.setVisible(false);
 
                 infoPanel.removeAll();
                 infoPanel.add(transtoPanel, BorderLayout.CENTER);
@@ -314,19 +317,31 @@ public class BankOptions extends JFrame implements WindowListener{ //Frame for U
 
                     }});
                 if (amountTrans < account.getBalance()) {
-                    double newBalance = account.getBalance() - amountTrans;
-                    account.setBalance(newBalance);
-                    Account accountTrans = new Account(transNum);
-                    double transAccountNewBalance = accountTrans.getBalance() + amountTrans;
-                    accountTrans.setBalance(transAccountNewBalance);
 
-                    infoPanel.removeAll();
+                    try {
+                        File check = new File(System.getProperty("User.dir"), ""+ transNum +".txt");
+                        Scanner checkScanner = new Scanner(check);
 
-                    infoPanel.add(new JLabel("<html><font size=+1 color=white>You transfered $" + amountTrans + ". Your Balance is now " + newBalance + "</font></html>"), BorderLayout.CENTER);
-                    infoPanel.add(okButton, BorderLayout.SOUTH);
+                        double newBalance = account.getBalance() - amountTrans;
+                        account.setBalance(newBalance);
+                        Account accountTrans = new Account(transNum);
+                        double transAccountNewBalance = accountTrans.getBalance() + amountTrans;
+                        accountTrans.setBalance(transAccountNewBalance);
 
-                    infoPanel.revalidate();
-                    infoPanel.repaint();
+                        infoPanel.removeAll();
+
+                        infoPanel.add(new JLabel("<html><font size=+1 color=white>You transfered $" + amountTrans + ". Your Balance is now " + newBalance + "</font></html>"), BorderLayout.CENTER);
+                        infoPanel.add(okButton, BorderLayout.SOUTH);
+
+                        infoPanel.revalidate();
+                        infoPanel.repaint();
+                    }
+
+                    catch(FileNotFoundException e) {
+                        fileNotFoundLabel.setVisible(true);
+                        transferPanel.revalidate();
+                        transferPanel.repaint();
+                    }
                 }
                 else {
                     infoPanel.removeAll();
@@ -354,6 +369,7 @@ public class BankOptions extends JFrame implements WindowListener{ //Frame for U
 			JLabel newPasswordLabel = new JLabel("<html><font color=white>New Password:</font></html>");
 			JLabel confirmNewPasswordLabel = new JLabel("<html><font color=white>Confirm New Password:</font></html>");
             JPanel changePasswordPanel = new JPanel();
+            JLabel incorrectLabel = new JLabel("<html><font color=white><align=center>Password could not be changed, <br>re-enter passwords and try again</align></font></html>");
 
 			private changePasswordPage () {
                 changePasswordPanel.setLayout(new BoxLayout(changePasswordPanel, BoxLayout.Y_AXIS));
@@ -375,6 +391,7 @@ public class BankOptions extends JFrame implements WindowListener{ //Frame for U
                 changePasswordPanel.add(confirmNewPasswordField);
 
 				changePasswordPanel.add(submitButton);
+                changePasswordPanel.add(incorrectLabel).setVisible(false);
 
                 infoPanel.removeAll();
                 infoPanel.add(changePasswordPanel, BorderLayout.CENTER);
@@ -397,13 +414,19 @@ public class BankOptions extends JFrame implements WindowListener{ //Frame for U
 					System.out.println("File does not exist");
 				}
 
+                boolean flag = false;
+
 				while(loginInfoStream.hasNext()){
+
+                    flag = false;
 
                     int acctNumToTest = loginInfoStream.nextInt();
                     String passwordToTest = loginInfoStream.next();
 
 					if ((accountNumber == acctNumToTest) && (oldPasswordField.getText().equals(passwordToTest)) &&
                             (newPasswordField.getText().equals(confirmNewPasswordField.getText()))) {
+
+                        flag = true;
                         String line = null;
                         BufferedWriter passwordChanger = null;
                         BufferedReader loginFileReader = null;
@@ -432,17 +455,29 @@ public class BankOptions extends JFrame implements WindowListener{ //Frame for U
                         } catch (IOException e) {
                             e.printStackTrace();
                         }
+
+                        break;
 					}
 
 			    }
 
                 loginInfoStream.close();
 
-                infoPanel.removeAll();
-                infoPanel.add(welcomeLabel, BorderLayout.CENTER);
-                infoPanel.revalidate();
-                infoPanel.repaint();
+                if (!flag) {
+                    incorrectLabel.setVisible(true);
+                    changePasswordPanel.revalidate();
+                    changePasswordPanel.repaint();
+                }
 
+                else {
+
+                    infoPanel.removeAll();
+                    infoPanel.add(welcomeLabel, BorderLayout.CENTER);
+                    infoPanel.add(new JLabel("<html><font color=white><br><br><br>Password Change Successful</font></html>"));
+                    infoPanel.revalidate();
+                    infoPanel.repaint();
+
+                }
             }//and of actionPerformed
         }//end of changePasswordPanel
     }//end of changePasswordButtonListener
